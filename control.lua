@@ -173,6 +173,15 @@ script.on_event(defines.events.on_gui_click, function(event)
 		return
 	end
 
+	--Planet hopper abort sequence for Rubia
+	if script.active_mods["rubia"] and destination_name == "rubia" 
+		and remote.interfaces["rubia-travel-abort"]
+		and not remote.call("rubia-travel-abort", "can_land_on_rubia", character) then
+		--We need to abort because Rubia is telling us we are not clear to land.
+		remote.call("rubia-travel-abort", "on_aborted_rubia_travel", player)
+		return
+	end
+
 	if not game.surfaces[destination_name] then
 		game.planets[destination_name].create_surface()
 	end
