@@ -1,7 +1,51 @@
 ---------------------------------------------------------------------------------------------------
-Version: 3.1.2
+Version: 4.0.10
 Date: ????
   Changes:
+---------------------------------------------------------------------------------------------------
+Version: 4.0.9
+Date: 2025-09-04
+  Changes:
+    - Silo entity description update.
+---------------------------------------------------------------------------------------------------
+Version: 4.0.8
+Date: 2025-08-27
+  Bugfixes:
+    - Correctly introduced PlanetsLib as a dependency.
+---------------------------------------------------------------------------------------------------
+Version: 4.0.7
+Date: 2025-08-26
+  Changes:
+    - (Muluna compatibility) Removed the oxygen surface condition from the launcher.
+---------------------------------------------------------------------------------------------------
+Version: 4.0.6
+Date: 2025-07-26
+  Changes:
+    - Adjusted the launcher to have a rocket weight of 1000kg
+---------------------------------------------------------------------------------------------------
+Version: 4.0.5
+Date: 2025-06-23
+  Bugfixes:
+    - Fixed that players could launch a Planet Hopper from remote view.
+    - Fixed that players could attempt to launch from a frozen Planet Hopper.
+---------------------------------------------------------------------------------------------------
+Version: 4.0.3
+Date: 2025-06-13
+  Bugfixes:
+    - Fixed a crash.
+  Changes:
+    - Reduced ingredient costs.
+---------------------------------------------------------------------------------------------------
+Version: 4.0.0
+Date: 2025-06-13
+  Changes:
+    - A small step towards realism: Planet hoppers are now burner entities (powered by fuel) and its rockets cost 20 steel to build.
+    - Crafting a Planet hopper silo is now more expensive.
+  Bugfixes:
+    - The launch button is now disabled if the rocket is not ready for launch.
+    - Fixed the behavior of the silo GUI when planets become unlocked/locked while the GUI is open.
+  Compatibility:
+    - Destination planets can now request Planet Hopper to abort the launch.
 ---------------------------------------------------------------------------------------------------
 Version: 3.1.1
 Date: 2025-06-12

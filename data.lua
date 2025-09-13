@@ -7,21 +7,21 @@ data:extend({
 		type = "recipe",
 		name = "planet-hopper-launcher",
 		enabled = true,
-		ingredients = {
-			{
-				type = "item",
-				name = "steel-plate",
-				amount = 10,
-			},
+		ingredients = settings.startup["planet-hopper-everything-is-free"].value and {} or {
 			{
 				type = "item",
 				name = "electronic-circuit",
-				amount = 10,
+				amount = 30,
+			},
+			{
+				type = "item",
+				name = "steel-plate",
+				amount = 20,
 			},
 			{
 				type = "item",
 				name = "pipe",
-				amount = 4,
+				amount = 20,
 			},
 		},
 		energy_required = 2,
@@ -43,7 +43,7 @@ data:extend({
 		pick_sound = item_sounds.mechanical_inventory_pickup,
 		drop_sound = item_sounds.mechanical_inventory_move,
 		place_result = "planet-hopper-launcher",
-		weight = 1 * 1000,
+		weight = 1000 * 1000,
 		stack_size = 1,
 	},
 	{
@@ -51,14 +51,15 @@ data:extend({
 		name = "planet-hopper-launcher",
 	},
 	{
-
 		type = "recipe",
-		name = "planet-hopper-automatic-rocket-parts",
+		name = "planet-hopper-rocket-parts",
 		category = "planet-hopper-launcher",
-		energy_required = 3,
+		energy_required = 3 / 4,
 		hide_from_player_crafting = true,
 		hidden_in_factoriopedia = true,
-		ingredients = {},
+		ingredients = settings.startup["planet-hopper-everything-is-free"].value and {} or {
+			{ name = "steel-plate", amount = 1, type = "item" },
+		},
 		results = { {
 			type = "item",
 			name = "rocket-part",
@@ -144,11 +145,11 @@ local silo_2 = merge(data.raw["rocket-silo"]["rocket-silo"], {
 	crafting_categories = { "planet-hopper-launcher" },
 	icon_size = 64,
 	fast_replaceable_group = "nil",
-	fixed_recipe = "planet-hopper-automatic-rocket-parts",
+	fixed_recipe = "planet-hopper-rocket-parts",
 	launch_wait_time = 1,
 	rocket_rising_delay = 1,
 	to_be_inserted_to_rocket_inventory_size = 0,
-	rocket_parts_required = 1,
+	rocket_parts_required = 5,
 	logistic_trash_inventory_size = 0,
 	rocket_entity = "planet-hopper",
 	alarm_sound = "nil",
@@ -159,15 +160,29 @@ local silo_2 = merge(data.raw["rocket-silo"]["rocket-silo"], {
 	},
 	max_health = 1000,
 	module_slots = 0,
-	energy_usage = "100kW", -- energy usage used when crafting the rocket
-	active_energy_usage = "1000kW",
 	times_to_blink = 1,
-	light_blinking_speed = data.raw["rocket-silo"]["rocket-silo"].light_blinking_speed * 2,
-	door_opening_speed = data.raw["rocket-silo"]["rocket-silo"].door_opening_speed * 2,
-	energy_source = {
-		type = "void",
+	light_blinking_speed = data.raw["rocket-silo"]["rocket-silo"].light_blinking_speed * 1,
+	door_opening_speed = data.raw["rocket-silo"]["rocket-silo"].door_opening_speed * 3,
+	energy_source = settings.startup["planet-hopper-everything-is-free"].value and { type = "void" } or {
+		type = "burner",
+		fuel_categories = { "chemical" },
+		effectivity = 0.25,
+		fuel_inventory_size = 1,
+		smoke = {
+			{
+				name = "tank-smoke",
+				deviation = { 0.25, 0.25 },
+				frequency = 40,
+				position = { 0, -1.5 },
+				starting_frame = 0,
+				starting_frame_deviation = 60,
+			},
+		},
 	},
+	energy_usage = "10MW",
+	active_energy_usage = "1kW",
 	surface_conditions = "nil",
+	drawing_box_vertical_extension = 0.5,
 })
 modify(silo_2)
 local lighter_tint = { 0.87, 1, 0.87, 1 }
@@ -190,8 +205,10 @@ local rocket_2 = merge(data.raw["rocket-silo-rocket"]["rocket-silo-rocket"], {
 	cargo_pod_entity = "planet-hopper-pod",
 	inventory_size = 1,
 	shadow_slave_entity = "planet-hopper-shadow",
-	rising_speed = data.raw["rocket-silo-rocket"]["rocket-silo-rocket"].rising_speed * 3,
-	engine_starting_speed = data.raw["rocket-silo-rocket"]["rocket-silo-rocket"].engine_starting_speed * 3,
+	rising_speed = data.raw["rocket-silo-rocket"]["rocket-silo-rocket"].rising_speed * 4,
+	engine_starting_speed = data.raw["rocket-silo-rocket"]["rocket-silo-rocket"].engine_starting_speed * 4,
+	flying_speed = data.raw["rocket-silo-rocket"]["rocket-silo-rocket"].flying_speed * 2.2,
+	flying_acceleration = data.raw["rocket-silo-rocket"]["rocket-silo-rocket"].flying_acceleration * 0.88, -- TODO: Adjust the procession so that this doesn't need to be low
 })
 modify(rocket_2)
 
