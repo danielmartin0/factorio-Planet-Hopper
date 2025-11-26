@@ -1,9 +1,24 @@
 ---------------------------------------------------------------------------------------------------
-Version: 4.1.0
+Version: 4.2.2
+Date: ????
+  Changes:
+---------------------------------------------------------------------------------------------------
+Version: 4.2.1
+Date: 2026-06-27
+  Bugfixes:
+    - Fixed a crash.
+---------------------------------------------------------------------------------------------------
+Version: 4.2.0
+Date: 2026-06-26
+  Changes:
+    - Updated for Factorio 2.1.
+---------------------------------------------------------------------------------------------------
+Version: 4.1.0-4.1.1
 Date: 2025-11-26
   Changes:
     - By default, Planet Hoppers can no longer transport players to planets that are unlocked but do not yet have a generated surface, i.e. nobody has visited yet. This can be changed in the mod settings.
     - Blueprints, deconstruction planners and other similar tools are now allowed to be carried on the Planet Hopper.
+    - Disallowed items are now dropped on the ground in full stacks rather than individually.
   Bugfixes:
     - Fixed that items in the player's crafting queue could sneak through on the Planet Hopper.
     - Fixed that items in the player's cursor could sneak through on the Planet Hopper.
