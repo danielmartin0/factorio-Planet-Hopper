@@ -53,7 +53,7 @@ data:extend({
 	{
 		type = "recipe",
 		name = "planet-hopper-rocket-parts",
-		category = "planet-hopper-launcher",
+		categories = { "planet-hopper-launcher" },
 		energy_required = 3 / 4,
 		hide_from_player_crafting = true,
 		hidden_in_factoriopedia = true,
@@ -188,6 +188,10 @@ modify(silo_2)
 local lighter_tint = { 0.87, 1, 0.87, 1 }
 silo_2.base_day_sprite.filename = "__Planet-Hopper__/graphics/entity/planet-hopper-launcher/06-rocket-silo.png"
 silo_2.base_day_sprite.tint = lighter_tint
+silo_2.base_day_sprite.width = 608
+silo_2.base_day_sprite.height = 596
+silo_2.base_day_sprite.x = 0
+silo_2.base_day_sprite.y = 0
 silo_2.arm_01_back_animation.filename =
 	"__Planet-Hopper__/graphics/entity/planet-hopper-launcher/08-rocket-silo-arms-back.png"
 silo_2.arm_01_back_animation.tint = lighter_tint
@@ -199,6 +203,10 @@ silo_2.arm_03_front_animation.filename =
 silo_2.arm_03_front_animation.tint = lighter_tint
 silo_2.base_front_sprite.filename = "__Planet-Hopper__/graphics/entity/planet-hopper-launcher/14-rocket-silo-front.png"
 silo_2.base_front_sprite.tint = lighter_tint
+silo_2.base_front_sprite.width = 580
+silo_2.base_front_sprite.height = 262
+silo_2.base_front_sprite.x = 0
+silo_2.base_front_sprite.y = 0
 
 local rocket_2 = merge(data.raw["rocket-silo-rocket"]["rocket-silo-rocket"], {
 	name = "planet-hopper",

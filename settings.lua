@@ -6,6 +6,13 @@ data:extend({
 		default_value = false,
 		order = "a",
 	},
+	{
+		type = "bool-setting",
+		name = "planet-hopper-allow-travel-to-ungenerated-planets",
+		setting_type = "runtime-global",
+		default_value = false,
+		order = "b",
+	},
 	-- {
 	-- 	type = "bool-setting",
 	-- 	name = "planet-hopper-can-launch-to-planets-with-surface",
