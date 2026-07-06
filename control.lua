@@ -35,6 +35,17 @@ end
 
 local GUI_KEY = "Planet-Hopper-destination"
 
+local function is_excluded_stack(stack)
+	if not stack or not stack.valid_for_read or stack.count == 0 then
+		return false
+	end
+	return stack.is_blueprint
+		or stack.is_blueprint_book
+		or stack.is_deconstruction_item
+		or stack.is_upgrade_item
+		or stack.is_selection_tool
+end
+
 local function update_gui_state(player, entity, planet)
 	local relative = player.gui.relative
 
@@ -182,6 +193,52 @@ script.on_event(defines.events.on_gui_opened, function(event)
 	update_gui_state(player, entity, entity.surface.planet)
 end)
 
+local function spill_cursor_stack(player, character, surface)
+	if player.is_cursor_empty() then
+		return
+	end
+
+	local cursor_stack = player.cursor_stack
+	if not cursor_stack or not cursor_stack.valid_for_read or cursor_stack.count == 0 then
+		return
+	end
+
+	if not is_excluded_stack(cursor_stack) then
+		surface.spill_item_stack({
+			position = character.position,
+			stack = cursor_stack,
+			drop_full_stack = true,
+		})
+		cursor_stack.clear()
+	end
+end
+
+local function spill_character_inventories(character, surface)
+	local inventories = {
+		character.get_inventory(defines.inventory.character_ammo),
+		character.get_inventory(defines.inventory.character_main),
+		character.get_inventory(defines.inventory.character_trash),
+	}
+
+	for _, inventory in ipairs(inventories) do
+		if inventory and inventory.valid then
+			for i = #inventory, 1, -1 do
+				local stack = inventory[i]
+				if stack and stack.valid_for_read and stack.count > 0 then
+					if not is_excluded_stack(stack) then
+						surface.spill_item_stack({
+							position = character.position,
+							stack = stack,
+							drop_full_stack = true,
+						})
+						stack.clear()
+					end
+				end
+			end
+		end
+	end
+end
+
 script.on_event(defines.events.on_gui_click, function(event)
 	if not event.element or event.element.name ~= "planet-hopper-launch-button" then
 		return
@@ -222,6 +279,15 @@ script.on_event(defines.events.on_gui_click, function(event)
 		return
 	end
 
+	if not game.surfaces[destination_name] then
+		if not settings.global["planet-hopper-allow-travel-to-ungenerated-planets"].value then
+			player.print({ "hopper.launch-ungenerated-disabled-whisper" }, { color = WARN_COLOR })
+
+			return
+		end
+		game.planets[destination_name].create_surface()
+	end
+
 	local abort_interface_name = "Planet-Hopper-abort-" .. destination_name
 	if
 		remote.interfaces[abort_interface_name]
@@ -254,22 +320,27 @@ script.on_event(defines.events.on_gui_click, function(event)
 		return
 	end
 
-	local inventories = {
-		character.get_inventory(defines.inventory.character_ammo),
-		character.get_inventory(defines.inventory.character_main),
-		character.get_inventory(defines.inventory.character_trash),
-	}
-
 	local surface = player.surface
 
-	for _, inventory in ipairs(inventories) do
-		if inventory and inventory.valid then
-			surface.spill_inventory({
-				inventory = inventory,
-				position = character.position,
+	spill_character_inventories(character, surface)
+
+	local while_safety = 1000
+	while player.crafting_queue_size > 0 and while_safety > 0 do
+		while_safety = while_safety - 1
+		local queue = player.crafting_queue
+		if queue and #queue > 0 then
+			player.cancel_crafting({
+				index = 1,
+				count = queue[1].count,
 			})
+		else
+			break
 		end
 	end
+
+	spill_character_inventories(character, surface)
+
+	spill_cursor_stack(player, character, surface)
 
 	local launch_result = silo.launch_rocket({
 		type = defines.cargo_destination.surface,

@@ -1,7 +1,12 @@
 ---------------------------------------------------------------------------------------------------
-Version: 4.0.10
-Date: ????
+Version: 4.1.0
+Date: 2025-11-26
   Changes:
+    - By default, Planet Hoppers can no longer transport players to planets that are unlocked but do not yet have a generated surface, i.e. nobody has visited yet. This can be changed in the mod settings.
+    - Blueprints, deconstruction planners and other similar tools are now allowed to be carried on the Planet Hopper.
+  Bugfixes:
+    - Fixed that items in the player's crafting queue could sneak through on the Planet Hopper.
+    - Fixed that items in the player's cursor could sneak through on the Planet Hopper.
 ---------------------------------------------------------------------------------------------------
 Version: 4.0.9
 Date: 2025-09-04
